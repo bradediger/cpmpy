@@ -87,7 +87,14 @@ class Model(object):
         if is_any_list(con) and len(con) == 1 and is_any_list(con[0]):
             # top level list of constraints
             con = con[0]
-        self.constraints.append(con)
+
+        if is_any_list(con):
+            con = [x for x in con if x is not True]
+            if len(con) == 0:
+                con = True # no-op
+
+        if con is not True:
+            self.constraints.append(con)
         return self
 
 

@@ -27,6 +27,17 @@ class TestModel(unittest.TestCase):
         m += (iv[0] == 5)
         self.assertTrue(m.solve())
 
+    def test_elides_constant_True(self):
+        iv = cp.intvar(1,9)
+        m = cp.Model()
+        m += [
+            iv == 3,
+            True
+        ]
+        m += [True, True]
+        m += True
+        self.assertEqual(m.constraints, [[iv == 3]])
+
     def test_empty(self):
         m = cp.Model()
         m += [] # should do nothing
